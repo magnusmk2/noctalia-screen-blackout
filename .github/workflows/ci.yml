@@ -1,0 +1,50 @@
+name: Validate and build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.14"]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install build requirements
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends build-essential pkg-config libwayland-dev wayland-protocols shellcheck
+      - name: Check publication files
+        run: |
+          python -B scripts/check_project.py
+          git diff --check
+          shellcheck install.sh screen-blackout/build-helper.sh
+      - name: Run regression checks
+        run: |
+          python -B -m unittest discover -s screen-blackout/tests -v
+          python -B -m unittest discover -s tests -v
+      - name: Build helper with warnings treated as errors
+        env:
+          CFLAGS: -Werror -fanalyzer
+        run: screen-blackout/build-helper.sh
+      - name: Build reproducible source release
+        run: python -B scripts/release.py

@@ -1,0 +1,25 @@
+id = "magnus/screen-blackout"
+name = "Screen Blackout"
+version = "1.4.12"
+plugin_api = 34
+author = "magnus"
+license = "MIT"
+dependencies = ["python3", "sleep"]
+tags = ["bar", "panel", "utility", "hyprland"]
+icon = "monitor"
+description = "Black out selected Hyprland displays from a monitor map, with input shielding and cursor hiding."
+
+[[widget]]
+id = "toggle"
+entry = "widget.luau"
+hover_highlight = false
+
+[[panel]]
+id = "picker"
+entry = "panel.luau"
+width = 340
+height = 240
+placement = "floating"
+position = "auto"
+open_near_click = true
+layer = "overlay"

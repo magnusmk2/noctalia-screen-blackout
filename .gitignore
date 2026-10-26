@@ -1,0 +1,26 @@
+# Generated build products
+**/.build/
+**/blackout-layer
+**/.blackout-layer.*
+*.o
+
+# Python and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Release and local tooling files
+dist/
+noctalia.d.luau
+.env
+.env.*
+*.log
+*.pid
+*.sock
+.DS_Store
+.idea/
+.vscode/

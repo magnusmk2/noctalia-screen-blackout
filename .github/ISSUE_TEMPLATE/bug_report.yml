@@ -1,0 +1,27 @@
+name: Bug report
+description: Report a reproducible problem with Screen Blackout.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For security vulnerabilities, follow SECURITY.md. Redact logs and avoid screenshots of private applications. Include only the relevant configuration lines.
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions and environment
+      description: Plugin, Noctalia, Hyprland, Python and Linux versions; display scale/rotation if relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps and result
+      description: Include expected and actual behaviour and whether Restore All works.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant redacted logs
+      render: text
