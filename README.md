@@ -69,6 +69,8 @@ Multiple concurrent Hyprland sessions under one Unix user are currently unsuppor
 Clone or download this repository, then run from its root as your regular user:
 
 ```sh
+git clone https://github.com/magnusmk2/noctalia-screen-blackout.git
+cd noctalia-screen-blackout
 ./install.sh
 noctalia msg plugins enable magnus/screen-blackout
 ```
@@ -211,8 +213,9 @@ layer therefore needs an architectural change before a community-store
 submission. It can be distributed independently on GitHub. No affiliation
 or endorsement by the Noctalia or Hyprland teams is claimed.
 
-See [publishing notes](docs/PUBLISHING.md) for the reviewed scope and the few
-GitHub hosting settings that can only be configured after a repository exists.
+See [publishing notes](docs/PUBLISHING.md) for the reviewed scope and hosting
+settings, and [GitHub Actions](https://github.com/magnusmk2/noctalia-screen-blackout/actions)
+for current validation results.
 
 ## Licence
 

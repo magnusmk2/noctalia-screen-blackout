@@ -53,7 +53,7 @@ workflow does not use privileged pull-request-target execution or interpolate
 issue/PR text into shell scripts. Dependabot is configured for action updates.
 These follow GitHub's [secure use guidance](https://docs.github.com/en/actions/reference/security/secure-use).
 
-## Local checks and remaining hosting settings
+## Local checks and hosting settings
 
 Run from the repository root:
 
@@ -68,8 +68,8 @@ git diff --cached --check
 
 The tests use temporary data/runtime directories, simulated compositor replies,
 and local compilation. They do not alter the working desktop installation.
-The CI workflow is prepared; actual GitHub-hosted execution can be checked only
-after the repository is pushed.
+The published workflow results are available in
+[GitHub Actions](https://github.com/magnusmk2/noctalia-screen-blackout/actions).
 
 For the prepared 1.4.12 source set, all **20 runtime regression checks and nine
 packaging checks passed locally**. Packaging checks include build/install,
@@ -81,12 +81,12 @@ Workflow/issue-template YAML parsed successfully. The 32-file public allowlist,
 credential-pattern scan, attribution checks and staged whitespace check passed.
 This source review found no embedded credentials or private machine data.
 
-After creating a repository, recommended hosting settings include secret
-scanning/push protection where available, private vulnerability reporting, and
-review/CI requirements for the main branch. These are repository settings,
-not claims of existing GitHub approval or completed hosted checks. Review the
-Git commit identity before the initial commit; no email or remote URL is
-embedded in this package.
+The public repository was published on **2026-10-27** at
+[magnusmk2/noctalia-screen-blackout](https://github.com/magnusmk2/noctalia-screen-blackout).
+Private vulnerability reporting, secret scanning and push protection were
+confirmed enabled. Commits use GitHub's no-reply identity. Main-branch review
+and required CI rules remain a maintainer choice; they have not been configured.
+These settings do not imply GitHub approval of the project.
 
 ## Noctalia distribution scope
 

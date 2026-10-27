@@ -7,14 +7,13 @@ when possible. Supported runtimes and the tested environment are in README.md.
 
 ## Reporting
 
-Use this repository's **Security → Report a vulnerability** option when private
-vulnerability reporting is enabled. If that option is unavailable, open an
+Use [private vulnerability reporting](https://github.com/magnusmk2/noctalia-screen-blackout/security/advisories/new)
+under **Security → Report a vulnerability**. If that option is unavailable, open an
 issue asking for a private reporting channel without including exploit details,
 credentials, private logs, or personal data. Never post a token or private key.
 Do not send private information to an assumed email address.
 
-The maintainer must enable private reporting after creating the repository;
-this document does not imply that a reporting service is already active.
+Private vulnerability reporting is enabled for this repository.
 
 ## What the plugin does
 
