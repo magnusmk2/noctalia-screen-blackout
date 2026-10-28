@@ -2,6 +2,8 @@ name: Validate and build
 
 on:
   push:
+    branches:
+      - "**"
     tags-ignore:
       - "v*"
   pull_request:
