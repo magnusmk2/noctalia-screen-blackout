@@ -20,7 +20,7 @@ them connected and powered on. Hover the bar button, then choose a screen.
 
 - A monitor map derived from current positions, scale and rotation.
 - Left-click to toggle a display; right-click to black out other displays.
-- Right-click the same display again to restore the previous blackout state.
+- Right-click the same display again to restore every display.
 - Batch **Black out all** and **Restore all** controls.
 - A compact picker above the blackouts, accessible when every display is covered.
 - Pointer/touch shielding to prevent clicks and taps reaching apps underneath.
@@ -182,6 +182,12 @@ The release command writes a reproducible source archive and SHA-256 checksum
 to `dist/`. The archive contains the reviewed source allowlist, with no compiled
 executables, caches, logs, local configuration, or desktop captures. It can be
 built and installed after extraction.
+
+To publish a GitHub Release, push a `v<version>` tag matching
+`screen-blackout/plugin.toml`. The release workflow reruns validation, builds
+the source archive and checksum, extracts notes from `CHANGELOG.md`, and
+publishes those assets. Its publishing job receives only `contents: write` and
+does not check out or execute repository source.
 
 CI uses read-only repository permissions, pinned GitHub-owned actions and no
 repository secrets. It checks metadata, licensing/notice presence, publication

@@ -9,6 +9,7 @@ PLUGIN_FILES = (
 )
 ROOT_FILES = (
     ".gitignore", ".gitattributes", ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
     ".github/dependabot.yml", ".github/ISSUE_TEMPLATE/bug_report.yml",
     ".github/ISSUE_TEMPLATE/feature_request.yml", ".github/ISSUE_TEMPLATE/config.yml",
     "README.md", "LICENSE", "SECURITY.md", "CONTRIBUTING.md", "CHANGELOG.md",

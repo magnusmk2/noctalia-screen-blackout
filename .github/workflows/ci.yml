@@ -2,8 +2,11 @@ name: Validate and build
 
 on:
   push:
+    tags-ignore:
+      - "v*"
   pull_request:
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read

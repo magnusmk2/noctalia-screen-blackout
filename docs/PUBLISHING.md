@@ -71,6 +71,15 @@ and local compilation. They do not alter the working desktop installation.
 The published workflow results are available in
 [GitHub Actions](https://github.com/magnusmk2/noctalia-screen-blackout/actions).
 
+## Tagged releases
+
+Push a tag such as `v1.4.13` at a commit whose plugin manifest version matches
+the tag. The release workflow calls the validation workflow, builds the
+reproducible source archive and SHA-256 file, extracts that version's notes from
+`CHANGELOG.md`, and publishes the release assets. Build jobs use read-only
+repository access. Only the final job gets `contents: write`; it downloads
+artifacts and publishes them without checking out or executing repository code.
+
 For the 1.4.12 source set, all **20 runtime regression checks and nine
 packaging checks passed locally**. Packaging checks include build/install,
 guarded replacement and backup, uninstall, build-failure preservation,

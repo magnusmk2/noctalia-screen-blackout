@@ -1,0 +1,120 @@
+name: Publish release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    uses: ./.github/workflows/ci.yml
+    permissions:
+      contents: read
+
+  build:
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Check out release source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.14"
+      - name: Install build requirements
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends build-essential pkg-config libwayland-dev wayland-protocols shellcheck
+      - name: Build archive and release notes
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python3 -B - <<'PY'
+          import os
+          import tomllib
+          from pathlib import Path
+
+          version = tomllib.loads(Path("screen-blackout/plugin.toml").read_text())["version"]
+          tag = os.environ["RELEASE_TAG"]
+          if tag != f"v{version}":
+              raise SystemExit(f"Tag {tag} does not match plugin version {version}")
+          PY
+          python3 -B scripts/check_project.py
+          shellcheck install.sh screen-blackout/build-helper.sh
+          CFLAGS="-Werror -fanalyzer" screen-blackout/build-helper.sh
+          python3 -B scripts/release.py
+          archive="dist/noctalia-screen-blackout-${RELEASE_TAG#v}.tar.gz"
+          sha256sum --check "$archive.sha256"
+          python3 -B - "$RELEASE_TAG" <<'PY'
+          import sys
+          import tomllib
+          from pathlib import Path
+
+          version = tomllib.loads(Path("screen-blackout/plugin.toml").read_text())["version"]
+          lines = Path("CHANGELOG.md").read_text().splitlines()
+          heading = f"## {version} "
+          start = next((i for i, line in enumerate(lines) if line.startswith(heading)), None)
+          if start is None:
+              raise SystemExit(f"No changelog entry found for {version}")
+          body = []
+          for line in lines[start + 1:]:
+              if line.startswith("## "):
+                  break
+              body.append(line)
+          notes = "\n".join(body).strip()
+          if not notes:
+              raise SystemExit(f"Changelog entry for {version} is empty")
+          notes += (
+              "\n\n## Install\n\n"
+              f"Download and extract `noctalia-screen-blackout-{version}.tar.gz`, "
+              "then run `./install.sh` from the extracted directory. The installer "
+              "builds the native helper locally. See the included README for requirements.\n"
+          )
+          Path("dist/RELEASE_NOTES.md").write_text(notes)
+          PY
+      - name: Stage release assets
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-assets-${{ github.ref_name }}
+          path: |
+            dist/noctalia-screen-blackout-*.tar.gz
+            dist/noctalia-screen-blackout-*.tar.gz.sha256
+            dist/RELEASE_NOTES.md
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Download release assets
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: release-assets-${{ github.ref_name }}
+          path: release-assets
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          archive="release-assets/noctalia-screen-blackout-${RELEASE_TAG#v}.tar.gz"
+          gh release create "$RELEASE_TAG" \
+            --verify-tag \
+            --title "Screen Blackout $RELEASE_TAG" \
+            --notes-file release-assets/RELEASE_NOTES.md \
+            "$archive" "$archive.sha256"
