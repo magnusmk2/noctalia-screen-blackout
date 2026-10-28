@@ -56,7 +56,10 @@ jobs:
           CFLAGS="-Werror -fanalyzer" screen-blackout/build-helper.sh
           python3 -B scripts/release.py
           archive="dist/noctalia-screen-blackout-${RELEASE_TAG#v}.tar.gz"
-          sha256sum --check "$archive.sha256"
+          (
+            cd dist
+            sha256sum --check "noctalia-screen-blackout-${RELEASE_TAG#v}.tar.gz.sha256"
+          )
           python3 -B - "$RELEASE_TAG" <<'PY'
           import sys
           import tomllib
