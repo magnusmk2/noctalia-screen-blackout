@@ -426,6 +426,15 @@ def perform_action(action: str, name: str | None) -> int:
         set_focus_state(None)
         stop(name)
         return 0
+    if action == "blackout-others":
+        state = focus_state()
+        if state is not None and state["target"] == name:
+            # Reverting a focus action clears all blackout layers. This also
+            # restores screens that were already black when focus was chosen.
+            for output in sorted(active_helpers()):
+                stop(output)
+            set_focus_state(None)
+            return 0
     names = [monitor["name"] for monitor in monitored_outputs()
              if NAME_RE.fullmatch(monitor.get("name", ""))]
     connected = set(names)
@@ -433,18 +442,10 @@ def perform_action(action: str, name: str | None) -> int:
         if name not in connected:
             raise RuntimeError(f"Monitor {name} is not connected and active")
         state = focus_state()
-        if state is not None and state["target"] == name:
-            previous = set(state["previous_active"])
-            for output in names:
-                if output not in previous:
-                    stop(output)
-            start_together([output for output in names if output in previous], "the previous monitor state", connected)
-            set_focus_state(None)
-        else:
-            previous = state["previous_active"] if state else sorted(active_helpers())
-            stop(name)
-            set_focus_state(name, previous)
-            start_together([output for output in names if output != name], f"monitors other than {name}", connected)
+        previous = state["previous_active"] if state else sorted(active_helpers())
+        stop(name)
+        set_focus_state(name, previous)
+        start_together([output for output in names if output != name], f"monitors other than {name}", connected)
     else:
         set_focus_state(None)
         start_together(names if action == "blackout-all" else [name], "every monitor" if action == "blackout-all" else name, connected)

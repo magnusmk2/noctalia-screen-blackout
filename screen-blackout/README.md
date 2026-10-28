@@ -1,5 +1,9 @@
 # Screen Blackout
 
+Right-click a display to keep it visible and black out the others. Right-click
+the same display again to restore every screen, including screens that were
+already blacked out before the focus action.
+
 Cover selected Hyprland monitors with a solid black input-shielding layer.
 The compact picker reflects the current monitor layout and keeps recovery
 controls above the blackout surfaces.

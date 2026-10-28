@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.13 — restore all screens after right-click focus
+
+- Right-clicking the focused display again now clears every blackout layer,
+  including screens that were already black before focusing that display.
+- Clarify the revert behavior in the picker and usage documentation.
+
 ## 1.4.12 — public repository preparation
 
 - Package the existing 1.4.11 plugin in a source-repository layout.

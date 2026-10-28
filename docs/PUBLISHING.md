@@ -71,7 +71,7 @@ and local compilation. They do not alter the working desktop installation.
 The published workflow results are available in
 [GitHub Actions](https://github.com/magnusmk2/noctalia-screen-blackout/actions).
 
-For the prepared 1.4.12 source set, all **20 runtime regression checks and nine
+For the 1.4.12 source set, all **20 runtime regression checks and nine
 packaging checks passed locally**. Packaging checks include build/install,
 guarded replacement and backup, uninstall, build-failure preservation,
 reproducible archives, and installation from an extracted source release.

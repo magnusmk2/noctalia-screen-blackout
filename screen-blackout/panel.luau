@@ -92,7 +92,7 @@ local function monitor_tile(output, width, height)
       variant = "ghost",
       enabled = not busy,
       contentAlign = "center",
-      tooltip = "Left-click to toggle. Right-click to black out others; right-click again to revert.",
+      tooltip = "Left-click to toggle. Right-click to keep this screen visible; right-click again to restore all screens.",
       onClick = function() toggle_output(output) end,
       onRightClick = function() blackout_others(output) end,
       onHover = on_panel_hover,
@@ -178,7 +178,7 @@ render = function()
       ui.button({ glyph = "x", variant = "ghost", tooltip = "Close", onClick = close_panel, onHover = on_panel_hover }),
     }),
     ui.label({
-      text = "Right-click a screen to focus it; right-click again to revert.",
+      text = "Right-click a screen to keep it visible. Right-click it again to restore all screens.",
       fontSize = 11,
       color = "on_surface_variant",
       maxLines = 2,

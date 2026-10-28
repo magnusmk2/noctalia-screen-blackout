@@ -126,12 +126,13 @@ class BlackoutChecks(unittest.TestCase):
                 blackout.main(["blackout-all"])
             sync.assert_called_once()
 
-    def test_right_click_same_output_restores_previous_state(self):
+    def test_right_click_same_output_restores_every_display(self):
         blackout.set_focus_state("DP-1", ["DP-3"])
-        with patch.object(blackout, "monitored_outputs", return_value=[{"name": name} for name in ["DP-1", "DP-2", "DP-3"]]), patch.object(blackout, "stop") as stop, patch.object(blackout, "start_together") as start:
+        with patch.object(blackout, "active_helpers", return_value={"DP-1", "DP-3"}), patch.object(blackout, "monitored_outputs") as monitors, patch.object(blackout, "stop") as stop, patch.object(blackout, "start_together") as start:
             blackout.perform_action("blackout-others", "DP-1")
-            self.assertEqual(stop.call_args_list, [call("DP-1"), call("DP-2")])
-            start.assert_called_once_with(["DP-3"], "the previous monitor state", {"DP-1", "DP-2", "DP-3"})
+            self.assertEqual(stop.call_args_list, [call("DP-1"), call("DP-3")])
+            monitors.assert_not_called()
+            start.assert_not_called()
             self.assertIsNone(blackout.focus_state())
 
     def test_shutdown_uses_pidfd_and_does_not_wait_for_zombie_reaping(self):

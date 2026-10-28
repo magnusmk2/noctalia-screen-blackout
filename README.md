@@ -10,7 +10,7 @@ them connected and powered on. Hover the bar button, then choose a screen.
 | Plugin | Value |
 | --- | --- |
 | ID | `magnus/screen-blackout` |
-| Version | `1.4.12` |
+| Version | `1.4.13` |
 | Bar entry | `magnus/screen-blackout:toggle` |
 | Panel entry | `magnus/screen-blackout:picker` |
 | Noctalia plugin API | `34` or later |
@@ -121,7 +121,8 @@ and preserves it under the data directory's `screen-blackout-backups/` folder.
 Hover the bar icon and move into the picker below it. The picker stays open
 while the pointer is over the button or panel, then closes after leaving both.
 Left-click a monitor to toggle its blackout. Right-click one to leave it visible
-and black out the others; right-click it again to restore the previous state.
+and black out the others; right-click it again to restore all screens, including
+ones that were already blacked out before the focus action.
 
 Open the panel from a terminal with its exact entry ID:
 
