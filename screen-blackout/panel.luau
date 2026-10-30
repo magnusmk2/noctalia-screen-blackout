@@ -128,7 +128,7 @@ local function build_monitor_map()
 
   local spanWidth = math.max(1, right - left)
   local spanHeight = math.max(1, bottom - top)
-  local scale = math.min(260 / spanWidth, 100 / spanHeight)
+  local scale = math.min(300 / spanWidth, 90 / spanHeight)
   local mapNodes = {}
   local previousEnd = left
   local previousStart = nil
@@ -143,11 +143,11 @@ local function build_monitor_map()
   if hasOverlap then
     -- A single column cannot show two overlapping rectangles independently;
     -- keep every output selectable in a compact fallback layout.
-    local tileWidth = math.max(90, math.floor(260 / #ordered))
+    local tileWidth = math.max(90, math.floor(300 / #ordered))
     for _, item in ipairs(ordered) do
       table.insert(mapNodes, monitor_tile(item.output, tileWidth, 82))
     end
-    return ui.row({ gap = 8, align = "center", justify = "start" }, mapNodes), true
+    return ui.row({ gap = 8, align = "center", justify = "center" }, mapNodes), true
   end
 
   previousEnd = left
@@ -167,7 +167,7 @@ local function build_monitor_map()
     previousEnd = item.x + item.width
   end
 
-  return ui.row({ gap = 0, align = "start", justify = "start" }, mapNodes), false
+  return ui.row({ gap = 0, align = "start", justify = "center" }, mapNodes), false
 end
 
 render = function()
@@ -178,7 +178,7 @@ render = function()
       ui.button({ glyph = "x", variant = "ghost", tooltip = "Close", onClick = close_panel, onHover = on_panel_hover }),
     }),
     ui.label({
-      text = "Right-click a screen to keep it visible. Right-click it again to restore all screens.",
+      text = "Right-click to keep one screen visible; right-click it again to restore all.",
       fontSize = 11,
       color = "on_surface_variant",
       maxLines = 2,
@@ -216,10 +216,10 @@ render = function()
     table.insert(rows, map)
     if overlapping then
       table.insert(rows, ui.label({
-        text = "Some monitor positions overlap, so displays are shown as separate tiles.",
+        text = "Overlapping monitors are shown as separate tiles.",
         fontSize = 11,
         color = "on_surface_variant",
-        maxLines = 2,
+        maxLines = 1,
       }))
     end
   elseif #outputs == 0 then
@@ -230,12 +230,31 @@ render = function()
     table.insert(rows, ui.label({ text = statusText, fontSize = 11, color = "error", maxLines = 2 }))
   end
   table.insert(rows, ui.label({
-    text = "Super+Shift+F12 restores all screens.",
+    text = "Super+Shift+F12: restore all screens.",
     fontSize = 10,
     color = "on_surface_variant",
     maxLines = 2,
   }))
-  panel.render(ui.column({ gap = 6, padding = 8, onHover = on_panel_hover }, rows))
+  local card = ui.column({
+    key = "screen-blackout-card",
+    width = 336,
+    height = 268,
+    gap = 8,
+    padding = 12,
+    align = "stretch",
+    fill = "surface",
+    radius = 14,
+    border = "outline_variant",
+    borderWidth = 1,
+  }, rows)
+  panel.render(ui.column({
+    key = "screen-blackout-panel",
+    flexGrow = 1,
+    align = "center",
+    justify = "center",
+    fill = "surface/0",
+    onHover = on_panel_hover,
+  }, { card }))
 end
 
 refresh = function()

@@ -10,7 +10,7 @@ them connected and powered on. Hover the bar button, then choose a screen.
 | Plugin | Value |
 | --- | --- |
 | ID | `magnus/screen-blackout` |
-| Version | `1.4.13` |
+| Version | `1.4.14` |
 | Bar entry | `magnus/screen-blackout:toggle` |
 | Panel entry | `magnus/screen-blackout:picker` |
 | Noctalia plugin API | `34` or later |

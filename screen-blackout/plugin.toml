@@ -1,6 +1,6 @@
 id = "magnus/screen-blackout"
 name = "Screen Blackout"
-version = "1.4.13"
+version = "1.4.14"
 plugin_api = 34
 author = "magnus"
 license = "MIT"
@@ -17,8 +17,8 @@ hover_highlight = false
 [[panel]]
 id = "picker"
 entry = "panel.luau"
-width = 340
-height = 240
+width = 360
+height = 300
 placement = "floating"
 position = "auto"
 open_near_click = true

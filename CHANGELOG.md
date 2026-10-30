@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.14 — match the Startup Manager panel frame
+
+- Apply the Startup Manager's rounded surface and outline to the Screen
+  Blackout card, center the monitor map, and keep the panel backdrop
+  transparent. Reserve space for the recovery hint inside the card.
+
 ## 1.4.13 — restore all screens after right-click focus
 
 - Right-clicking the focused display again now clears every blackout layer,

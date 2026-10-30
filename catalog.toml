@@ -1,7 +1,7 @@
 [[plugin]]
 id = "magnus/screen-blackout"
 name = "Screen Blackout"
-version = "1.4.13"
+version = "1.4.14"
 author = "magnus"
 license = "MIT"
 icon = "monitor"
